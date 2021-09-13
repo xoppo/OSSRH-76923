@@ -30,3 +30,5 @@ public interface SchoolRepository extends JpaRepository<School, String>, JpaSpec
 ```
 #### 支持的方法
  EQ, LIKE, NE, GE, GT, LE, LT, IN, BETWEEN, NOTIN,ISNULL,NOTNULL，Order by，OR
+#### 联系我们
+QQ群 976278956
