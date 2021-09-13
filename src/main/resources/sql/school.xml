@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 这是用来操作博客信息的 Fenix XML 文件，请填写 namespace 命名空间. -->
+<fenixs namespace="com.fhs.jpa.test.dao.SchoolRepository">
+
+    <!-- 这是一条完整的 Fenix 查询语句块，必须填写 fenix 标签的 id 属性. -->
+    <fenix id="findSchoolVO">
+        SELECT
+        *
+        FROM
+        School AS b
+
+        <trimWhere>
+        <andEqual  field="b.id" value="id" match="id != empty"/>
+        </trimWhere>
+    </fenix>
+
+</fenixs>
