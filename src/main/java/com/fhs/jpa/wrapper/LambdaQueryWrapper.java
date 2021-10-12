@@ -271,7 +271,7 @@ public class LambdaQueryWrapper<T>  extends AbstractWrapper<T>{
      * OR
      * @return this
      */
-    public LambdaQueryWrapper<T> or(TempQueryWrapper<T> tempQueryWrapper) {
+    public LambdaQueryWrapper<T> or(TempLambdaQueryWrapper<T> tempQueryWrapper) {
         LambdaQueryWrapper<T> lambdaQueryWrapper = new LambdaQueryWrapper<T>();
         tempQueryWrapper.exec(lambdaQueryWrapper);
         if(!lambdaQueryWrapper.tempPredicates.isEmpty()){
@@ -569,7 +569,7 @@ public class LambdaQueryWrapper<T>  extends AbstractWrapper<T>{
      * 用于or的情况，比如 订单号或者名称包含某个
      * @param <T>
      */
-    public static interface TempQueryWrapper<T>{
+    public static interface TempLambdaQueryWrapper<T>{
         public void exec(LambdaQueryWrapper<T> wrapper);
     }
 }

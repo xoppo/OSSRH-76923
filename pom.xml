@@ -21,7 +21,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.fhs-opensource</groupId>
     <artifactId>jpa-query-wrapper</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -31,11 +31,16 @@
         <fhs.hibernate.version>5.4.12.Final</fhs.hibernate.version>
     </properties>
     <dependencies>
-
         <dependency>
             <groupId>com.fhs-opensource</groupId>
             <artifactId>easy_trans_service</artifactId>
             <version>${fhs.release.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>spring-data-redis</artifactId>
+                    <groupId>org.springframework.data</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>

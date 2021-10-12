@@ -17,4 +17,8 @@ public class School {
 
     @Column(name="school_name")
     private String schoolName;
+
+    @Column(name="remark")
+    private String remark;
+
 }
