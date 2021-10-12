@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * 自动转换为一个wrapper
  */
-public interface WrapperAble {
+public interface Wrapperble1 {
 
     /**
      * 转换为一个wrapper
