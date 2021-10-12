@@ -3,6 +3,14 @@
 #### 介绍
 spring data jpa的LambdaQueryWrapper 实现，使用方法和mybatis plus保持一致，减少了mybatis plus开发者转向JPA的学习成本，仅仅实现了80%的功能，欢迎大家一起开发
 
+#### MAVEN
+```xml
+<dependency>
+  <groupId>com.fhs-opensource</groupId>
+  <artifactId>jpa-query-wrapper</artifactId>
+  <version>1.0.0</version>
+</dependency>
+```
 
 #### 如何使用
 1、DAO 继承JpaSpecificationExecutor
