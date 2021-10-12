@@ -3,7 +3,7 @@ package com.fhs.jpa.test.pojo;
 import com.fhs.jpa.anno.Eq;
 import com.fhs.jpa.anno.GroupOrLike;
 import com.fhs.jpa.anno.Like;
-import com.fhs.jpa.pojo.Wrapperble1;
+import com.fhs.jpa.pojo.Wrapperble;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,7 +11,7 @@ import lombok.Data;
 @Data
 @Builder
 @AllArgsConstructor
-public class SchoolQueryPayload implements Wrapperble1 {
+public class SchoolQueryPayload implements Wrapperble {
 
     @Eq
     private Integer id;
