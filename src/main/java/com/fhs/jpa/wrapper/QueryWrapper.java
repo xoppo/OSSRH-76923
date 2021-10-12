@@ -1,12 +1,10 @@
 package com.fhs.jpa.wrapper;
 
-import com.fhs.jpa.lambda.SFunction;
-
 /**
  * 普通的queryWrapper 根据字段名
  */
-public class QuerayWrapper extends AbstractWrapper {
-    public QuerayWrapper() {
+public class QueryWrapper extends AbstractWrapper {
+    public QueryWrapper() {
     }
 
     /**
@@ -17,7 +15,7 @@ public class QuerayWrapper extends AbstractWrapper {
      * @param value     值
      * @return this
      */
-    public QuerayWrapper eq(boolean condition, String fieldName, Object value) {
+    public QueryWrapper eq(boolean condition, String fieldName, Object value) {
         if (condition) {
             tempPredicates.add(TempPredicate.builder().fieldName(fieldName)
                     .operator(Operator.EQ).value(value).build());
@@ -32,7 +30,7 @@ public class QuerayWrapper extends AbstractWrapper {
      * @param value     值
      * @return this
      */
-    public QuerayWrapper eq(String fieldName, Object value) {
+    public QueryWrapper eq(String fieldName, Object value) {
         eq(true, fieldName, value);
         return this;
     }
@@ -45,7 +43,7 @@ public class QuerayWrapper extends AbstractWrapper {
      * @param value     值
      * @return this
      */
-    public QuerayWrapper ne(boolean condition, String fieldName, Object value) {
+    public QueryWrapper ne(boolean condition, String fieldName, Object value) {
         if (condition) {
             tempPredicates.add(TempPredicate.builder().fieldName(fieldName)
                     .operator(Operator.NE).value(value).build());
@@ -60,7 +58,7 @@ public class QuerayWrapper extends AbstractWrapper {
      * @param value     值
      * @return this
      */
-    public QuerayWrapper ne(String fieldName, Object value) {
+    public QueryWrapper ne(String fieldName, Object value) {
         ne(true, fieldName, value);
         return this;
     }
@@ -73,7 +71,7 @@ public class QuerayWrapper extends AbstractWrapper {
      * @param value     值
      * @return this
      */
-    public QuerayWrapper gt(boolean condition, String fieldName, Comparable<?> value) {
+    public QueryWrapper gt(boolean condition, String fieldName, Comparable<?> value) {
         if (condition) {
             tempPredicates.add(TempPredicate.builder().fieldName(fieldName)
                     .operator(Operator.GT).value(value).build());
@@ -87,7 +85,7 @@ public class QuerayWrapper extends AbstractWrapper {
      * @param value     值
      * @return this
      */
-    public QuerayWrapper gt(String fieldName, Comparable<?> value) {
+    public QueryWrapper gt(String fieldName, Comparable<?> value) {
         gt(true, fieldName, value);
         return this;
     }
