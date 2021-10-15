@@ -1,6 +1,7 @@
 package com.fhs.jpa;
 
 //import com.blinkfox.fenix.EnableFenix;
+import com.fhs.jpa.anno.EnableJpaExtNativeQuery;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
@@ -13,7 +14,7 @@ import org.springframework.context.annotation.ComponentScan;
 @SpringBootApplication(exclude = { RedisAutoConfiguration.class })
 @EnableConfigurationProperties
 @ComponentScan({"com.fhs"})
-//@EnableFenix
+@EnableJpaExtNativeQuery(basePackages = "com.fhs.jpa.test.dao")
 public class TestApplication {
 
     public static void main(String[] args) {

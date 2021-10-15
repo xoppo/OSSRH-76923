@@ -9,11 +9,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Arrays;
+import java.util.HashSet;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class SchoolRepositoryTest {
     @Autowired
     private SchoolRepository schoolRepository;
+
+    @Autowired
+    private SchoolRepositoryNative schoolRepositoryNative;
+
+    @Test
+    public void nativeQueryOneTest(){
+        System.out.println(schoolRepositoryNative.findById("1"));
+    }
+
+    @Test
+    public void nativeQueryListTest(){
+        System.out.println(schoolRepositoryNative.findByIds(new HashSet<>(Arrays.asList("1","2"))));
+    }
 
     @Test
     public void test(){
