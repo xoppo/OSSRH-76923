@@ -68,7 +68,7 @@ public class SchoolQueryPayload implements Wrapperble {
                 .merge(new LambdaQueryWrapper<School>().eq(School::getId,1)).build()));
     }
  ```
- 4、SQL查询结果自动转换DTO
+ 4、SQL查询结果自动转换DTO   
  比如一个DTO是几个表联合查询或者使用聚合函数查询，使用原来的nativeSQL实现起来很恶心，要接收List<Object[]> 然后自己二次封装DTO，我们重新实现了NativeQueryRepository来简化这个问题
   ``` java
   @NativeQueryRepository //标记这是原生查询扩展仓库
@@ -84,6 +84,8 @@ public interface SchoolRepositoryNative {
 }
 
   ```
+ 5、 QueryWrapper   
+ 区别于LambdaQueryWrapper，QueryWrapper 支持接收po的属性名而不是属性的lambda表达式，用过mybatis plus的同学一定很熟悉，这里不多做说明了。
 #### 支持的方法
  EQ, LIKE, NE, GE, GT, LE, LT, IN, BETWEEN, NOTIN,ISNULL,NOTNULL，Order by，OR
 #### 联系我们
