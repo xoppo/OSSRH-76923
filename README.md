@@ -69,10 +69,9 @@ public class SchoolQueryPayload implements Wrapperble {
     }
  ```
  4、SQL查询结果自动转换DTO   
- 比如一个DTO是几个表联合查询或者使用聚合函数查询，使用原来的nativeSQL实现起来很恶心，要接收List<Object[]> 然后自己二次封装DTO，我们重新实现了NativeQueryRepository来简化这个问题
+ 比如一个DTO是几个表联合查询或者使用聚合函数查询，使用原来的nativeSQL实现起来很恶心，要接收List<Object[]> 然后自己二次封装DTO，我们搞了个注解来简化这个问题
   ``` java
-  @NativeQueryRepository //标记这是原生查询扩展仓库
-public interface SchoolRepositoryNative {
+ 
 
     @ResultClass(SchoolDto.class) //指定返回结果的Dto class
     @Query(value = "select id,school_name as schoolName,remark from school where id =?1",nativeQuery = true)
@@ -81,7 +80,7 @@ public interface SchoolRepositoryNative {
     @ResultClass(SchoolDto.class) //指定返回结果的Dto class
     @Query(value = "select id,school_name as schoolName,remark from school where id in (:ids)",nativeQuery = true)
     List<SchoolDto> findByIds(@Param("ids") Set<String> ids);
-}
+
 
   ```
  5、 QueryWrapper   
