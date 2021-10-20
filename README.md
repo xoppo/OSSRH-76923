@@ -8,7 +8,7 @@ spring data jpa的LambdaQueryWrapper 和QueryWrapper 实现，使用方法和myb
 <dependency>
   <groupId>com.fhs-opensource</groupId>
   <artifactId>jpa-query-wrapper</artifactId>
-  <version>1.0.2</version>
+  <version>1.0.3</version>
 </dependency>
 ```
 
