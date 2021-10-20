@@ -1,7 +1,7 @@
-package com.fhs.jpa.test.dao;
+package com.fhs.jpaxx.test.dao;
 
-import com.fhs.jpa.test.pojo.School;
-import com.fhs.jpa.test.pojo.SchoolQueryPayload;
+import com.fhs.jpaxx.test.pojo.School;
+import com.fhs.jpaxx.test.pojo.SchoolQueryPayload;
 import com.fhs.jpa.wrapper.LambdaQueryWrapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,17 +18,15 @@ public class SchoolRepositoryTest {
     @Autowired
     private SchoolRepository schoolRepository;
 
-    @Autowired
-    private SchoolRepositoryNative schoolRepositoryNative;
 
     @Test
     public void nativeQueryOneTest(){
-        System.out.println(schoolRepositoryNative.findById("1"));
+        System.out.println(schoolRepository.findByIdXX("1"));
     }
 
     @Test
     public void nativeQueryListTest(){
-        System.out.println(schoolRepositoryNative.findByIds(new HashSet<>(Arrays.asList("1","2"))));
+        System.out.println(schoolRepository.findByIds(new HashSet<>(Arrays.asList("1","2"))));
     }
 
     @Test

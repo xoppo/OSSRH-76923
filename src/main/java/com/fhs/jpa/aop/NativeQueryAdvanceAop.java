@@ -1,70 +1,56 @@
-package com.fhs.jpa.sql;
+package com.fhs.jpa.aop;
 
 import com.fhs.jpa.anno.ResultClass;
-import lombok.Data;
-import net.sf.cglib.proxy.Enhancer;
-import net.sf.cglib.proxy.MethodInterceptor;
-import net.sf.cglib.proxy.MethodProxy;
+import lombok.extern.slf4j.Slf4j;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.reflect.MethodSignature;
 import org.hibernate.SQLQuery;
-import org.hibernate.query.internal.NativeQueryImpl;
 import org.hibernate.transform.Transformers;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Component;
+
 import javax.persistence.EntityManager;
-import java.io.Serializable;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 
-/**
- * 原生sql查询返回dto
- */
-@Data
-public class JpaNativeQueryProxy implements MethodInterceptor, Serializable  {
-
-    private static final long serialVersionUID = 1L;
+@Slf4j
+@Aspect
+@Component
+public class NativeQueryAdvanceAop {
 
 
-    private final Enhancer enhancer = new Enhancer();
-
+    @Autowired
     private EntityManager em;
 
-    /**
-     * 获取代理对象
-     *
-     * @param clazz
-     * @return
-     */
-    public Object getProxy(Class clazz) {
-        enhancer.setSuperclass(clazz);
-        enhancer.setCallback(this);
-        return enhancer.create();
-    }
+    @Around("@annotation(com.fhs.jpa.anno.ResultClass)")
+    public Object transResult(ProceedingJoinPoint point) throws Throwable {
+        /**
+         *  切入点 得到被增强方法的方法签名
+         */
+        MethodSignature methodSignature = (MethodSignature) point.getSignature();
 
-    /**
-     * 这一段代码是重点，为了获取参数名，我此处使用的cglib代理。
-     */
-    @Override
-    public Object intercept(Object o, Method method, Object[] objects, MethodProxy methodProxy) throws Throwable {
-        Object result = exec(method, objects);
-        return result;
-    }
-
-    private Object exec(Method method, Object[] objects) {
-        if(!method.isAnnotationPresent(ResultClass.class)){
-            throw new IllegalArgumentException("请在方法上添加DtoClass注解");
-        }
+        /**
+         *  方法签名 到被增强方法的方法
+         */
+        Method method = methodSignature.getMethod();
         if(!method.isAnnotationPresent(Query.class)){
             throw new IllegalArgumentException("请在方法上添加Query注解");
         }
+        Object[] args = point.getArgs();
         //拿到sql
         String sql = method.getAnnotation(Query.class).value();
         javax.persistence.Query query = em.createNativeQuery(sql);
         query.unwrap(SQLQuery.class)
                 .setResultTransformer(Transformers.aliasToBean(method.getAnnotation(ResultClass.class).value()));
+        //如果是使用?1 那么久根据下标赋值
         if(sql.contains("?1")){
-            for (int i = 0; i < objects.length; i++) {
-                query.setParameter((i+1),objects[i]);
+            for (int i = 0; i < args.length; i++) {
+                query.setParameter((i+1),args[i]);
             }
         }else{
             Class<?>[] parameterTypes = method.getParameterTypes();
@@ -76,7 +62,7 @@ public class JpaNativeQueryProxy implements MethodInterceptor, Serializable  {
                     if (annotation instanceof Param) {
                         Param param = (Param)annotation;
                         //根据paramtername设置参数
-                        query.setParameter(param.value(),objects[i]);
+                        query.setParameter(param.value(),args[i]);
                     }
                 }
             }
@@ -90,7 +76,4 @@ public class JpaNativeQueryProxy implements MethodInterceptor, Serializable  {
         }
         return query.getSingleResult();
     }
-
-
-
 }

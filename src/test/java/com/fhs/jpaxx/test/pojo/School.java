@@ -1,4 +1,4 @@
-package com.fhs.jpa.test.pojo;
+package com.fhs.jpaxx.test.pojo;
 
 import lombok.Data;
 
