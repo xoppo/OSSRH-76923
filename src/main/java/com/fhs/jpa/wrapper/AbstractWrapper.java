@@ -5,8 +5,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
+
 import javax.persistence.criteria.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -23,12 +25,12 @@ public class AbstractWrapper<T> {
     /**
      * 临时过滤条件
      */
-    protected  List<TempPredicate> tempPredicates = new ArrayList<>();
+    protected List<TempPredicate> tempPredicates = new ArrayList<>();
 
     /**
      * 临时过滤条件-复杂的or的时候用的
      */
-    protected  List<List<TempPredicate>> orTempPredicates = new ArrayList<>();
+    protected List<List<TempPredicate>> orTempPredicates = new ArrayList<>();
 
 
     /**
@@ -47,11 +49,11 @@ public class AbstractWrapper<T> {
             }
             //处理or的过滤条件
             for (List<TempPredicate> orTempPredicate : orTempPredicates) {
-                Predicate[]  oneOr = new Predicate[orTempPredicate.size()];
+                Predicate[] oneOr = new Predicate[orTempPredicate.size()];
                 for (int i = 0; i < orTempPredicate.size(); ++i) {
                     oneOr[i] = toPredicate(root, query, cb, orTempPredicate.get(i));
                 }
-                predicates[index]  = cb.or(oneOr);
+                predicates[index] = cb.or(oneOr);
                 index++;
             }
             if (Objects.equals(predicates.length, 0) && orderByList.isEmpty()) {
@@ -109,8 +111,13 @@ public class AbstractWrapper<T> {
                 return criteriaBuilder.isNull(root.get(predicate.getFieldName()));
             case NOTNULL:
                 return criteriaBuilder.isNotNull(root.get(predicate.getFieldName()));
+            case GREATERTHAN:
+                return criteriaBuilder.greaterThan(root.get(predicate.getFieldName()).as(Date.class), (Date) predicate.getValue());
+            case LESSTHAN:
+                return criteriaBuilder.lessThan(root.get(predicate.getFieldName()).as(Date.class), (Date) predicate.getValue());
+            default:
+                return null;
         }
-        return null;
     }
 }
 
@@ -153,5 +160,8 @@ class TempPredicate {
 }
 
 enum Operator {
-    EQ, LIKE, NE, GE, GT, LE, LT, IN, NOTLIKE, BETWEEN, NOTIN,ISNULL,NOTNULL;
+    /**
+     * 操作符枚举
+     */
+    EQ, LIKE, NE, GE, GT, LE, LT, IN, NOTLIKE, BETWEEN, NOTIN, ISNULL, NOTNULL, GREATERTHAN, LESSTHAN;
 }
